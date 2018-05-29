@@ -4,7 +4,7 @@
   "description": "custom javascript development environment",
   "scripts": {
     "prestart": "babel-node buildScripts/startMessage.js",
-    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch",
+    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
     "open:src": "babel-node buildScripts/srcServer.js",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
@@ -12,7 +12,10 @@
     "localtunnel": "lt --port 3000",
     "share": "npm-run-all --parallel open:src localtunnel",
     "test": "mocha --reporter progress ./buildScripts/testSetup.js \"src/**/*.test.js\"",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "generate-mock-data": "babel-node buildScripts/generateMockData",
+    "prestart-mockapi": "npm run generate-mock-data",
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001"
   },
   "author": "diogito",
   "license": "MIT",
@@ -30,6 +33,8 @@
     "eslint-watch": "^3.1.5",
     "express": "4.16.3",
     "jsdom": "^11.11.0",
+    "json-schema-faker": "^0.5.0-rc15",
+    "json-server": "^0.12.2",
     "mocha": "^5.2.0",
     "npm-run-all": "^4.1.3",
     "nsp": "^3.2.1",
@@ -37,6 +42,7 @@
     "open": "0.0.5",
     "style-loader": "^0.21.0",
     "webpack": "^4.9.1",
-    "webpack-dev-middleware": "^3.1.3"
+    "webpack-dev-middleware": "^3.1.3",
+    "whatwg-fetch": "^2.0.4"
   }
 }
